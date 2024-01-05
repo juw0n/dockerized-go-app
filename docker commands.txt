@@ -1,0 +1,28 @@
+docker run -d \
+  --name go-roach-db \
+  --hostname go-db \
+  --network go-app-network \
+  -p 26257:26257 \
+  -p 8080:8080 \
+  -v go-app-volume:/cockroach/cockroach-data \
+  cockroachdb/cockroach:latest-v20.1 start-single-node \
+  --insecure
+  
+  
+docker run -it --rm -d \
+  --network go-app-network \
+  --name go-rest-server \
+  -p 80:8080 \
+  -e PGUSER=juwonGo \
+  -e PGPASSWORD=myfriend \
+  -e PGHOST=go-db \
+  -e PGPORT=26257 \
+  -e PGDATABASE=golangdb \
+  go-app-dev
+
+
+  
+curl --request POST \
+  --url http://localhost/send \
+  --header 'content-type: application/json' \
+  --data '{"value": "Hello, Docker! Testing my Db with a post msg"}'

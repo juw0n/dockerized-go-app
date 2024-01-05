@@ -16,7 +16,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, Docker! <3")
+		return c.HTML(http.StatusOK, "Hello, If you are seeing this, it means the microservice project worked!")
 	})
 
 	e.GET("/health", func(c echo.Context) error {
